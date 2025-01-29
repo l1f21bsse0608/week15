@@ -1,0 +1,23 @@
+name: wf-ci-development
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  ci-development-jobs:
+    runs-on: ubuntu-latest  # Corrected `run-on` to `runs-on`
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4  # Corrected action version syntax
+
+      - name: Lint HTML and CSS code
+        run: |
+          npx htmlhint "**/*.html"
+          npx stylelint "**/*.css"  # Fixed linting for CSS files (shouldn't lint HTML with stylelint)
+
+      - name: Test Build
+        run: |
+          npx parcel build "./src/index.html" --dist-dir "./dist" --public-url "./"  # Fixed quotes and added proper syntax
